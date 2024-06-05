@@ -1,4 +1,5 @@
 import { Request, Response} from "express";
+const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
 
@@ -35,9 +36,31 @@ export class UserController {
     const userExists =  await User.findOne({email: email})
 
     if(userExists){
-      res.status(422).json({message:'O usuário já existe!! Por favor usar outro email'})
+      res.status(422).json({
+        message:'O usuário já existe!! Por favor usar outro email'
+      })
       return
     }
+    // create a password
+     const salt = await bcrypt.genSalt(12)
+     const passwordHash =  await bcrypt.hash(password, salt)
 
+    // create a user
+    const user = new User({
+      name,
+      email,
+      password: passwordHash,
+      phone
+    })   
+    try {
+      const newUser = await user.save()
+      res.status(201).json({
+        message: 'O usuário foi cadastrado com sucesso!',
+        newUser
+      })
+      return
+    } catch (error) {
+      res.status(500).json({message: error})
+    }
   }
 }
