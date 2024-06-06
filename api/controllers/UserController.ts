@@ -1,4 +1,5 @@
 import { Request, Response} from "express";
+import { createUserToken } from "../helpers/create-user-token";
 const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
@@ -54,6 +55,8 @@ export class UserController {
     })   
     try {
       const newUser = await user.save()
+
+      await createUserToken(newUser,res)
       res.status(201).json({
         message: 'O usuário foi cadastrado com sucesso!',
         newUser
