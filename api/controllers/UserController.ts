@@ -1,5 +1,10 @@
 import { Request, Response} from "express";
+
 import { createUserToken } from "../helpers/create-user-token";
+import { getToken } from "../helpers/get-token";
+
+const jwt = require('jsonwebtoken')
+
 const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
@@ -111,6 +116,12 @@ export class UserController {
     console.log(req.headers.authorization)
 
     if(req.headers.authorization){
+      const token = getToken(req,res)
+      const decoded = jwt.verify(token, 'nossosecret')
+     
+      currentUser = await User.findById(decoded.id)
+
+      currentUser.password = undefined
 
     } else {
       currentUser = null

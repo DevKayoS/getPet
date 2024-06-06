@@ -26,7 +26,7 @@ const User = mongoose.model(
       require: true
     }
   },
-  {timeStamps: true}
+  {timeStamp: true}
 )
 )
 
