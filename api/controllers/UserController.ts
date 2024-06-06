@@ -104,4 +104,19 @@ export class UserController {
       res.status(500).json({message: error})
     }
   }
+
+  static async checkUser(req: Request, res: Response){
+    let currentUser
+
+    console.log(req.headers.authorization)
+
+    if(req.headers.authorization){
+
+    } else {
+      currentUser = null
+    }
+
+    res.status(200).send(currentUser)
+
+  }
 }
