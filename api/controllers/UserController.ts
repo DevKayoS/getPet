@@ -57,11 +57,49 @@ export class UserController {
       const newUser = await user.save()
 
       await createUserToken(newUser,res)
-      res.status(201).json({
-        message: 'O usuário foi cadastrado com sucesso!',
-        newUser
+  
+    } catch (error) {
+      res.status(500).json({message: error})
+    }
+  }
+  
+  static async login(req: Request, res: Response){
+    const {email, password} =  req.body
+
+    if(!email){
+      res.status(422).json({
+        message: 'O campo email é obrigatória'
       })
       return
+    }
+    if(!password){
+       res.status(422).json({
+        message: 'O campo senha é obrigatório'
+       })
+       return
+    }
+
+    const user = await User.findOne({email: email})
+
+    if(!user){
+      res.status(404).json({
+        message: 'O usuário não foi encontrado'
+      })
+      return
+    }
+
+    // check if password match with db password
+    const checkPassword = await bcrypt.compare(password, user.password)
+
+    if(!checkPassword){
+      res.status(422).json({
+        message: 'Senha inválida'
+      })
+      return
+    }
+    try {
+      await createUserToken(user,res)
+  
     } catch (error) {
       res.status(500).json({message: error})
     }
