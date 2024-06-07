@@ -2,6 +2,7 @@ import { Request, Response} from "express";
 
 import { createUserToken } from "../helpers/create-user-token";
 import { getToken } from "../helpers/get-token";
+import { getUserbyToken } from "../helpers/get-user-by-token";
 
 const jwt = require('jsonwebtoken')
 
@@ -134,7 +135,7 @@ export class UserController {
 
     if(!user){
       res.status(422).json({
-        message: 'Usuário não encontrado'
+        message: "User not found"
       })
       return
     }
@@ -142,9 +143,57 @@ export class UserController {
     res.status(200).json({user})
   }
   static async editUser(req: Request, res: Response){
-    res.status(200).json({
-      message: 'is done!'
-    })
-    return
+    const id = req.params.id
+     // check if user existis
+     const token = getToken(req,res)?? ''
+     
+     const user = await getUserbyToken(token,res)
+
+     if(!user){
+       res.status(422).json({
+         message: "User not found"
+       })
+       return
+     }
+     console.log(user)
+
+    const {name,email,phone,password, confirmPassword} = req.body
+    let image = ''
+    // validations
+    if(!name){
+      res.status(422).json({message: 'O nome é obrigatório'})
+      return
+    }
+    user.name = name
+    if(!email){
+      res.status(422).json({message: 'O email é obrigatório'})
+      return
+    }
+    // check if email has already taken
+    const userExists = await User.findOne({email: email})
+    if(user.email != email && userExists ){
+      res.status(422).json({
+        message: 'This email has already take'
+      })
+      return
+    }
+    user.email = email
+
+    if(!phone){
+      res.status(422).json({message: 'O telefone é obrigatório'})
+      return
+    }
+    if(!password){
+      res.status(422).json({message: 'O senha é obrigatório'})
+      return
+    }
+    if(!confirmPassword){
+      res.status(422).json({message: 'A confirmação de senha é obrigatório'})
+      return
+    }
+    if(password !== confirmPassword){
+      res.status(422).json({message: 'A senha e a confirmação de senha precisam ser iguais'})
+      return
+    }
   }
 }
