@@ -6,7 +6,8 @@ import { User } from './interface/UserInterface';
 declare global {
   namespace Express {
     interface Request {
-      user?: User; // Você pode definir um tipo específico em vez de 'any'
+      user?: User; 
+      baseUrl?: String// Você pode definir um tipo específico em vez de 'any'
     }
   }
 }

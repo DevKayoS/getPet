@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
 
+
 export class UserController {
   static async register(req: Request, res: Response){
     const {name, email, phone, password, confirmPassword} = req.body
@@ -158,7 +159,13 @@ export class UserController {
      console.log(user)
 
     const {name,email,phone,password, confirmPassword} = req.body
+    
     let image = ''
+    if(req.file){
+     user.image = req.file.filename
+    }
+
+
     // validations
     if(!name){
       res.status(422).json({message: 'O nome é obrigatório'})
