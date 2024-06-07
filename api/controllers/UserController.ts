@@ -140,7 +140,11 @@ export class UserController {
     }
 
     res.status(200).json({user})
-
   }
-
+  static async editUser(req: Request, res: Response){
+    res.status(200).json({
+      message: 'is done!'
+    })
+    return
+  }
 }
