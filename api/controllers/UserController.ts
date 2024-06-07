@@ -183,16 +183,30 @@ export class UserController {
       res.status(422).json({message: 'O telefone é obrigatório'})
       return
     }
-    if(!password){
-      res.status(422).json({message: 'O senha é obrigatório'})
-      return
-    }
-    if(!confirmPassword){
-      res.status(422).json({message: 'A confirmação de senha é obrigatório'})
-      return
-    }
+    user.phone = phone
     if(password !== confirmPassword){
-      res.status(422).json({message: 'A senha e a confirmação de senha precisam ser iguais'})
+      res.status(422).json({message: 'As senhas não conferem'})
+      return
+    } else if(password === confirmPassword && password !== null){
+      // create password
+      const salt =  await bcrypt.genSalt(12)
+      const passwordHash = await bcrypt.hash(password, salt)
+
+      user.password = passwordHash
+    } 
+    try {
+      // return user updated data
+     await User.findOneAndUpdate(
+        {_id: user._id},
+        {$set: user},
+        {new: true} 
+      )
+
+      res.status(200).json({
+        message: 'Usuário atualizado com sucesso!'
+      })
+    } catch (error) {
+      res.status(500).json({message: error})
       return
     }
   }
