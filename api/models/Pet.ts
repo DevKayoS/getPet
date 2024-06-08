@@ -1,4 +1,4 @@
-import { timeStamp } from "console"
+
 
 const mongoose = require('../db/conn')
 const {Schema} = mongoose
@@ -31,7 +31,7 @@ const Pet = mongoose.model(
     user: Object,
     adopter: Object
   },
-{timeStamps: true}
+{timestamps: true}
 )
 )
 

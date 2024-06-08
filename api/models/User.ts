@@ -1,7 +1,6 @@
-import { timeStamp } from "console"
+import { Schema } from "mongoose"
 
 const mongoose = require('../db/conn')
-const {Schema} = mongoose
 
 const User = mongoose.model(
   'User',
@@ -26,8 +25,9 @@ const User = mongoose.model(
       require: true
     }
   },
-  {timeStamp: true}
+  {timestamps: true}
 )
+  
 )
 
 module.exports = User

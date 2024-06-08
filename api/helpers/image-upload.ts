@@ -39,7 +39,7 @@ const imageStorage = multer.diskStorage({
 const imageUpload = multer({
   storage: imageStorage,
   fileFilter(req: Request, file: Express.Multer.File, cb: CallableFunction){
-    if(!file.originalname.match(/\.(png|jpeg)$/)){
+    if(!file.originalname.match(/\.(png|jpeg|jpg)$/)){
       return cb(new Error("Por favor, envie apenas jpg ou png!"))
     }
     cb(null, true)
