@@ -89,5 +89,13 @@ export class PetController {
     }
    
   }
+  static async getAll(req: Request, res: Response){
+    const pets = await Pet.find().sort('-createdAt')
+
+    res.status(200).json({
+      message: 'Pets pego com sucesso',
+      pets
+    })
+  }
 
 }
