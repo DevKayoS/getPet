@@ -1,49 +1,37 @@
-import express, { Request, Response, NextFunction } from 'express';
-import multer, { FileFilterCallback,  } from 'multer';
+import multer from 'multer';
 import path from 'path';
+import { Request } from 'express';
 
-
-// Declare um módulo para estender o tipo Request
-declare module 'express-serve-static-core' {
-  interface Request {
-    baseUrl: string;
-  }
-}
-
-declare module 'multer' {
-  interface File {
-    originalname: string;
-  }
-}
-
-
-//Destination to store the images
+// Configuração do armazenamento das imagens
 const imageStorage = multer.diskStorage({
-  destination: function(req: Request, file: Express.Multer.File, cb: CallableFunction){
-    let folder = ""
-    
-    if(req.baseUrl.includes("users")){
-      folder = "users"
-    } else if(req.baseUrl.includes(" pets")){
-      folder = "pet"
+  destination: function(req: Request, file: Express.Multer.File, cb: CallableFunction) {
+    let folder = "";
+
+    if (req.baseUrl.includes("users")) {
+      folder = "users";
+    } else if (req.baseUrl.includes("pets")) {
+      folder = "pets";
     }
 
-    cb(null,`public/images/${folder}`)
+    // Corrige o caminho absoluto para o destino das imagens
+    const absolutePath = path.join(__dirname, `../public/images/${folder}`);
+    cb(null, absolutePath);
   },
-  filename: function(req: Request, file: Express.Multer.File, cb: CallableFunction){
-    
-    cb(null, Date.now() + path.extname(file.originalname) )
+  filename: function(req: Request, file: Express.Multer.File, cb: CallableFunction) {
+    cb(null, Date.now() + path.extname(file.originalname));
   }
-})
+});
 
+// Configuração do middleware multer para upload de imagens
 const imageUpload = multer({
   storage: imageStorage,
-  fileFilter(req: Request, file: Express.Multer.File, cb: CallableFunction){
-    if(!file.originalname.match(/\.(png|jpeg|jpg)$/)){
-      return cb(new Error("Por favor, envie apenas jpg ou png!"))
+  fileFilter(req: Request, file: Express.Multer.File, cb: CallableFunction) {
+    // Verifica se o arquivo tem uma extensão válida
+    if (!file.originalname.match(/\.(png|jpeg|jpg)$/)) {
+      return cb(new Error("Por favor, envie apenas arquivos JPG ou PNG!"));
     }
-    cb(null, true)
+    cb(null, true);
   }
-})
+});
 
-module.exports = {imageUpload}
+export { imageUpload };

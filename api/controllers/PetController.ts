@@ -15,6 +15,8 @@ export class PetController {
 
     // images upload
 
+    const images = req.files as Express.Multer.File[];
+  
     // validations
     if(!name){
       res.status(422).json({
@@ -40,6 +42,13 @@ export class PetController {
       }) 
       return
     }
+  
+    if (!images || images.length === 0) {
+      res.status(422).json({
+        message: 'O campo imagem é obrigatório',
+      });
+      return;
+    }
     // get pet owner
     const token = await getToken(req, res)?? ''
    
@@ -60,6 +69,11 @@ export class PetController {
         phone: user.phone
       }
     })
+
+      images.map((image) => {
+        pet.images.push(image.filename);
+      });
+   
     
     try {
       const newPet = await pet.save() 
