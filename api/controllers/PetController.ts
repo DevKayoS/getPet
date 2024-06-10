@@ -175,6 +175,93 @@ export class PetController {
     res.status(200).json({
       message: 'Pet deleted with successfully'
     })
+  }
+  static async upadatePet(req: Request, res: Response){
+    // check if pet exists
+    const id = req.params.id
+    if(!objectId.isValid(id)){
+      res.status(422).json({
+        message: 'invalid id'
+      })
+      return
+    }
+    const pet = await Pet.findOne({_id: id})
+    if(!pet){
+      res.status(404).json({
+        message: 'pet not found'
+      })
+      return
+    }
+    // check if user logged registerd a pet
+    const token = getToken(req,res)?? ''
+    const user = await getUserbyToken(token, res)
+    
+    if(pet.user._id.toString() !== user._id.toString()){
+      res.status(422).json({
+        message: 'logged user dont have permission for this action'
+      })
+      return
+    }
 
+
+    const {name, age, weight, coat, available} = req.body
+
+    const images = req.files as Express.Multer.File[];
+
+    const updatedData = {
+      name: pet.name,
+      age: pet.age,
+      weight: pet.weight,
+      coat: pet.coat,
+      images: pet.images
+    }
+    // validations
+   
+    // validations
+    if(!name){
+      res.status(422).json({
+        message: 'o campo nome é obrigatório'
+      })  
+      return
+    } else {
+      updatedData.name = name
+    }
+    if(!age){
+      res.status(422).json({
+        message: 'o campo idade é obrigatório'
+      })  
+      return
+    } else {
+      updatedData.age = age
+    }
+    if(!weight){
+      res.status(422).json({
+        message: 'o campo peso é obrigatório'
+      })  
+      return
+    } else {
+      updatedData.weight = weight
+    }
+    if(!coat){
+      res.status(422).json({
+        message: 'o campo raça é obrigatório'
+      }) 
+      return
+    } else {
+      updatedData.coat = coat
+    }
+  
+    if (!images || images.length === 0) {
+      res.status(422).json({
+        message: 'O campo imagem é obrigatório',
+      });
+      return;
+    } else {
+      updatedData.images = []
+      images.map((image)=>{
+        updatedData.images.push(image.filename)
+      })
+    }
+    
   }
 }
