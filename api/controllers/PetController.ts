@@ -1,8 +1,9 @@
 import {Request, Response } from 'express'
 import { getToken } from '../helpers/get-token'
 import { getUserbyToken } from '../helpers/get-user-by-token'
-const Pet = require('../models/Pet')
 
+const Pet = require('../models/Pet')
+const objectId = require('mongoose').Types.ObjectId
 
 
 export class PetController {
@@ -123,5 +124,28 @@ export class PetController {
       adoptPets
     })
 
+  }
+  static async getPetById(req: Request, res: Response){
+    const id = req.params.id
+
+    if(!objectId.isValid(id)){
+      res.status(422).json({
+        message: 'ID is invalid'
+      })
+      return
+    }
+    // check if pet exists
+    const pet = await Pet.findOne({_id: id})
+
+    if(!pet){
+      res.status(404).json({
+        message: 'This Pet not exists!'
+      })
+      return
+    }
+
+    res.status(200).json({
+      pet
+    })
   }
 }
