@@ -97,5 +97,18 @@ export class PetController {
       pets
     })
   }
+  static async getAllUserPets(req: Request, res: Response){
+
+    const token = await getToken(req,res)?? ''
+    const user = await getUserbyToken(token, res)
+
+
+    const pets =  await Pet.find({'user._id': user._id}).sort("-createdAt")
+
+
+    res.status(200).json({
+      pets
+    })
+  }
 
 }
