@@ -139,7 +139,7 @@ export class PetController {
 
     if(!pet){
       res.status(404).json({
-        message: 'This Pet not exists!'
+        message: 'pet not found'
       })
       return
     }
