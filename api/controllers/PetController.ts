@@ -130,7 +130,7 @@ export class PetController {
 
     if(!objectId.isValid(id)){
       res.status(422).json({
-        message: 'ID is invalid'
+        message: 'invalid id'
       })
       return
     }
@@ -147,5 +147,34 @@ export class PetController {
     res.status(200).json({
       pet
     })
+  }
+  static async deletePet(req: Request, res: Response){
+    // check if id is valid
+   const id =  req.params.id
+    if(!objectId.isValid(id)){
+      res.status(422).json({
+        message: 'invalid id'
+      })
+      return
+    }
+    // check if pet exist
+    const pet = await Pet.findOne({_id: id})
+    // check if logged in user registered the pet 
+    const token = getToken(req,res)?? ""
+    const user = await getUserbyToken(token, res)
+
+    if(pet.user._id.toString() !== user._id.toString()){
+      res.status(422).json({
+        message: 'logged user dont have permission for this action'
+      })
+      return
+    }
+
+    await Pet.findByIdAndDelete(id)
+
+    res.status(200).json({
+      message: 'Pet deleted with successfully'
+    })
+
   }
 }
