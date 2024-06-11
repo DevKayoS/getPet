@@ -1,18 +1,23 @@
 import { Link } from "react-router-dom"
+import Logo from '../assets/img/favicon-32x32.png'
 
 export const Header = () => {
   return(
     <div>
-      <nav className="flex justify-between px-6">
-        <Link to={"/"}>
-          <h1>Get a Pet</h1>
+      <nav className="flex justify-between px-6 py-2 w-full h-16 bg-slate-700/50 items-center">
+        <Link to={"/"} className="flex text-center justify-center gap-2">
+          <img src={Logo} alt="Logo" className="size-8"/>
+          <h1 className="text-xl">Get a Pet</h1>
         </Link>
         <div className="flex gap-5">
-          <Link to={"/register"}>
-            Register
+        <Link to={"/"}>
+            Adotar
           </Link>
           <Link to={"/login"}>
-            Login
+            Entrar
+          </Link>
+          <Link to={"/register"}>
+            Registrar
           </Link>
         </div>
       </nav>
