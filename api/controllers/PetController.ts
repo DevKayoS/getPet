@@ -193,16 +193,16 @@ export class PetController {
       return
     }
     // check if user logged registerd a pet
-    const token = getToken(req,res)?? ''
+    const token = getToken(req,res)?? ""
     const user = await getUserbyToken(token, res)
-    
-    if(pet.user._id.toString() !== user._id.toString()){
+
+    if(pet.user._id.toString() != user._id.toString()){
       res.status(422).json({
         message: 'logged user dont have permission for this action'
       })
       return
     }
-
+    
 
     const {name, age, weight, coat, available} = req.body
 
@@ -262,6 +262,13 @@ export class PetController {
         updatedData.images.push(image.filename)
       })
     }
-    
+
+    await Pet.findByIdAndUpdate(id, updatedData)
+    const petUpdated = await Pet.findOne({_id: id})
+
+    res.status(200).json({
+      message: 'updated with successfully!',
+      petUpdated
+    })
   }
 }
