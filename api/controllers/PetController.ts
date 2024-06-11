@@ -321,4 +321,40 @@ export class PetController {
       message: `appointment has already been scheduled, please contact ${pet.user.name} at phone ${pet.user.phone}`
     })
   }
+  static async concludeAdoption(req: Request, res: Response){
+    const id = req.params.id
+
+    if(!objectId.isValid(id)){
+      res.status(422).json({
+        message: 'invalid id'
+      })
+      return
+    }
+    // check if pet exist 
+    const pet = await Pet.findOne({_id: id})
+    if(!pet){
+      res.status(404).json({
+        message: 'pet not found'
+      })
+      return
+    }
+    // check if logged user has registered
+    const token =  getToken(req,res)?? ''
+    const user =  await getUserbyToken(token, res)
+
+    if(!pet.user._id.equals(user._id)){
+      res.status(422).json({
+        message: 'you dont have permission for this action'
+      })
+      return
+    }
+
+    pet.available = false
+
+    await Pet.findByIdAndUpdate(id, pet)
+
+    res.status(200).json({
+      message: 'Congratulations, pet has been successfully adopted.'
+    })
+  }
 }
