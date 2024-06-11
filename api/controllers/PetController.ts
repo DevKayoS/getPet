@@ -264,11 +264,61 @@ export class PetController {
     }
 
     await Pet.findByIdAndUpdate(id, updatedData)
-    const petUpdated = await Pet.findOne({_id: id})
 
     res.status(200).json({
-      message: 'updated with successfully!',
-      petUpdated
+      message: 'Pet was updated with successfully!',
+    })
+  }
+  static async schedule(req: Request, res: Response){
+    const id = req.params.id
+
+    if(!objectId.isValid(id)){
+      res.status(422).json({
+        message: 'invalid id'
+      })
+      return
+    }
+
+    // check if pet exists
+    const pet = await Pet.findOne({_id: id})
+    if(!pet){
+      res.status(404).json({
+        message: 'pet not found'
+      })
+      return
+    }
+
+    // check if pet isnt the logged user
+    const token = getToken(req,res)?? ''
+    const user =  await getUserbyToken(token,res)
+
+    if(pet.user._id.equals(user._id)){
+      res.status(422).json({
+        message: 'user can not do this action, please try again'
+      })
+      return
+    } 
+
+    // check if the logged user already scheduled visit
+    if(pet.adopter){
+      if(pet.adopter._id.equals(user._id)){
+        res.status(422).json({message: 'you already scheduled visit'})
+        return
+      }
+    }
+
+    // add adopter to pet
+    pet.adopter = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      image: user.image
+    }
+
+    await Pet.findByIdAndUpdate(id, pet)
+
+    res.status(200).json({
+      message: `appointment has already been scheduled, please contact ${pet.user.name} at phone ${pet.user.phone}`
     })
   }
 }
