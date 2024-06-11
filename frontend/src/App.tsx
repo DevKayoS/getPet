@@ -1,7 +1,12 @@
+import { Outlet } from "react-router-dom";
+import { Header } from "./components/header";
 
 export function App() {
   return(
-    <div className="text-2xl text-blue-300">Get a Pet</div>
+    <div>
+      <Header/>
+      <Outlet/>
+    </div>
   )
 }
 
