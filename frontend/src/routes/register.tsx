@@ -12,7 +12,7 @@ export function Register(){
   const [confirmPassword, setConfirmPassword] = useState("")
    
 
-  function handleSubmit(e){
+  function handleSubmit(e: { preventDefault: () => void; }){
     e.preventDefault()
     // send user for database
     setUser({
@@ -23,7 +23,7 @@ export function Register(){
       confirmPassword: confirmPassword
     })
     
-
+    console.log(user)
     toast.success('Usuário cadastrado com sucesso!')
   }
   return(
