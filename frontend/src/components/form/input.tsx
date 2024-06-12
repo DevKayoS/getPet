@@ -1,10 +1,12 @@
 interface InputProps {
-  type: any,
+  type: string,
   text: string,
   name: string,
   placeholder: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleOnChange: (handleOnChange: any) => void,
   value: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   multiple: any
 
 }
@@ -22,7 +24,7 @@ export function Input({type, text, name, placeholder, handleOnChange, value, mul
       onChange={handleOnChange} 
       value={value}
       {...(multiple ?  {multiple} : '')}
-      className="p-2 rounded-md"
+      className="p-2 rounded-md text-black"
       />
     </div>
   )
