@@ -1,7 +1,8 @@
 import { Input } from "@/components/form/input";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Toaster, toast } from "sonner";
+import {Context} from '../context/UserContext'
 
 export function Register(){
   const [user, setUser] = useState({})
@@ -10,9 +11,9 @@ export function Register(){
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-   
+  const {register} = useContext(Context)
 
-  function handleSubmit(e: { preventDefault: () => void; }){
+  async function handleSubmit(e: { preventDefault: () => void; }){
     e.preventDefault()
     // send user for database
     setUser({
@@ -22,8 +23,8 @@ export function Register(){
       password: password,
       confirmPassword: confirmPassword
     })
-    
     console.log(user)
+    register(user)
     toast.success('Usuário cadastrado com sucesso!')
   }
   return(

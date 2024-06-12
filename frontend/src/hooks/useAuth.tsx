@@ -1,13 +1,14 @@
 // api
+import { Iuser } from "@/interface/IUser"
 import api from "../utils/api"
 
 // import {useState, useEffect} from "react"
 // import {useHistory} from "react-router-dom"
-import {User} from '../../../api/interface/UserInterface'
+
 
 
 export default function useAuth(){
-  async function register(user: User){
+  async function register(user: Iuser){
 
     try {
       const data = await api.post('/users/register', user).then((response)=> {
