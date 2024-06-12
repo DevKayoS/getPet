@@ -18,7 +18,7 @@ const imageStorage = multer.diskStorage({
     cb(null, absolutePath);
   },
   filename: function(req: Request, file: Express.Multer.File, cb: CallableFunction) {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + String(Math.floor(Math.random()*100)) + path.extname(file.originalname));
   }
 });
 

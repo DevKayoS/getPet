@@ -6,7 +6,7 @@ export function App() {
   return(
     <div>
       <Header/>
-      <div className="h-3/4">
+      <div className="w-full m-auto min-h-screen px-8 py-4">
         <Outlet/>
       </div>
       <Footer/>
