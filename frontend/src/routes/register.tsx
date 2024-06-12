@@ -25,7 +25,6 @@ export function Register(){
     })
     console.log(user)
     register(user)
-    toast.success('Usuário cadastrado com sucesso!')
   }
   return(
     <div className="p-10">
@@ -35,8 +34,8 @@ export function Register(){
           type="text"
           name="name"
           placeholder="Digite o seu nome"
-          handleOnChange={(e)=> setName(e.target.value)} 
           value={name}
+          handleOnChange={(e)=> setName(e.target.value)} 
           multiple={undefined}       
            />
         <Input
@@ -44,8 +43,8 @@ export function Register(){
           type="text"
           name="email"
           placeholder="Digite o seu e-mail"
-          handleOnChange={(e)=> setEmail(e.target.value)} 
           value={email} 
+          handleOnChange={(e)=> setEmail(e.target.value)} 
           multiple={undefined}       
            />
         <Input
@@ -53,8 +52,8 @@ export function Register(){
           type="text"
           name="phone"
           placeholder="Digite o seu telefone"
-          handleOnChange={(e)=> setPhone(e.target.value)} 
           value={phone}
+          handleOnChange={(e)=> setPhone(e.target.value)} 
           multiple={undefined}       
            />
         <Input
@@ -62,8 +61,8 @@ export function Register(){
           type="password"
           name="password"
           placeholder="Digite a sua senha"
-          handleOnChange={(e)=> setPassword(e.target.value)} 
           value={password}
+          handleOnChange={(e)=> setPassword(e.target.value)} 
           multiple={undefined}       
            />
         <Input
@@ -71,8 +70,8 @@ export function Register(){
           type="password"
           name="confirmPassword"
           placeholder="Confirme a sua senha"
-          handleOnChange={(e)=> setConfirmPassword(e.target.value)} 
           value={confirmPassword}
+          handleOnChange={(e)=> setConfirmPassword(e.target.value)} 
           multiple={undefined}       
            />
           <input type="submit" value="Cadastrar" className="bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-8 hover:bg-sky-900 cursor-pointer"/>
