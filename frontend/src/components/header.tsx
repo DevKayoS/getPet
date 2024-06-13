@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom"
 import Logo from '../assets/img/favicon-32x32.png'
+// context
+import {useAuthContext} from "../context/UserContext"
 
 export const Header = () => {
+  const {authenticated} = useAuthContext()
+
   return(
     <div>
       <nav className="flex justify-between px-6 py-2 w-full h-16 border-b-2 border-slate-100/50 items-center">
@@ -13,12 +17,21 @@ export const Header = () => {
         <Link to={"/"} className="hover:text-sky-400">
             Adotar
           </Link>
-          <Link to={"/login"} className="hover:text-sky-400">
-            Entrar
-          </Link>
-          <Link to={"/register"} className="hover:text-sky-400">
-            Registrar
-          </Link>
+          {authenticated ? (
+            <>
+              <p> Logado</p>
+            </>
+          ) : (
+            <>
+              <Link to={"/login"} className="hover:text-sky-400">
+                Entrar
+              </Link>
+              <Link to={"/register"} className="hover:text-sky-400">
+                Registrar
+              </Link>
+            </>
+          )}
+          
         </div>
       </nav>
     </div>
