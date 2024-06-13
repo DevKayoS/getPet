@@ -4,7 +4,7 @@ import Logo from '../assets/img/favicon-32x32.png'
 import {useAuthContext} from "../context/UserContext"
 
 export const Header = () => {
-  const {authenticated} = useAuthContext()
+  const {authenticated, logout} = useAuthContext()
 
   return(
     <div>
@@ -19,7 +19,9 @@ export const Header = () => {
           </Link>
           {authenticated ? (
             <>
-              <p> Logado</p>
+              <li onClick={logout}
+              className="hover:text-sky-400 list-none cursor-pointer"
+              >Sair</li>
             </>
           ) : (
             <>

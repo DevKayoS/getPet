@@ -6,16 +6,18 @@ interface AuthContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: (user: Iuser) => Promise<void | any>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  authenticated: boolean
+  authenticated: boolean,
+  logout: (()=> void)
 }
 
 const Context = createContext<AuthContextType | undefined>(undefined)
 
 function UserProvider({children}: {children: ReactNode}){
-  const {authenticated, register} = useAuth()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {authenticated, register, logout} = useAuth()
 
   return(
-    <Context.Provider value={{authenticated, register}}>{children}</Context.Provider>
+    <Context.Provider value={{authenticated, register, logout}}>{children}</Context.Provider>
   )
 }
 function useAuthContext() {

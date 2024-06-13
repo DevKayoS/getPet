@@ -17,7 +17,7 @@ useEffect(()=> {
     api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
     setAuthenticated(true)
   }
-})
+}, [])
 
   async function register(user: Iuser){
     try {
@@ -42,5 +42,13 @@ useEffect(()=> {
 
     history('/')
   }
-  return {authenticated, register}
+
+  async function logout(){
+    setAuthenticated(false)
+    localStorage.removeItem('token')
+    api.defaults.headers.Authorization = null
+    history('/')
+    toast.success('Logout realizado com sucesso!')
+  }
+  return {authenticated, register, logout}
 }
