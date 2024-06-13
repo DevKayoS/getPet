@@ -1,30 +1,29 @@
 import { Input } from "@/components/form/input";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Toaster, toast } from "sonner";
-import {Context} from '../context/UserContext'
+import { Toaster } from "sonner";
+import { useAuthContext} from '../context/UserContext'
 
 export function Register(){
-  const [user, setUser] = useState({})
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const {register} = useContext(Context)
+  const {register} = useAuthContext()
 
   async function handleSubmit(e: { preventDefault: () => void; }){
     e.preventDefault()
     // send user for database
-    setUser({
+    const user = {
       name: name,
       email: email,
       phone: phone,
       password: password,
       confirmPassword: confirmPassword
-    })
+    }
     console.log(user)
-    register(user)
+    await register(user)
   }
   return(
     <div className="p-10">

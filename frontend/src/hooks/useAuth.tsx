@@ -1,30 +1,46 @@
 // api
 import { Iuser } from "@/interface/IUser"
 import api from "../utils/api"
+import {useNavigate} from 'react-router-dom'
 import {toast } from "sonner";
+import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 
-// import {useState, useEffect} from "react"
-// import {useHistory} from "react-router-dom"
-
-
-
 export default function useAuth(){
-  async function register(user: Iuser){
-    
+const [authenticated, setAuthenticated] = useState(false)
+const history = useNavigate()
 
+useEffect(()=> {
+  const token = localStorage.getItem('token')
+
+  if(token){
+    api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
+    setAuthenticated(true)
+  }
+})
+
+  async function register(user: Iuser){
     try {
       const data = await api.post('/users/register', user).then((response)=> {
         return response.data
       })
+      await authUser(data)
       toast.success('Cadastro realizado com sucesso!')
-      console.log(data)
-    } catch (error: AxiosError) {
+    } catch (error: unknown) {
       // tratar erro
-      const messageError = error.response.data.message
-      toast.error(`Algo deu errado: ${messageError}`)
+      if(error instanceof AxiosError){
+        const messageError = error.response?.data?.message
+        toast.error(`Algo deu errado: ${messageError}`)
+      } else {
+        toast.error('Erro desconhecido!')
+      }
     }
   }
+  async function authUser(data: { token: string; }){
+    setAuthenticated(true)
+    localStorage.setItem('token', JSON.stringify(data.token))
 
-  return {register}
+    history('/')
+  }
+  return {authenticated, register}
 }
