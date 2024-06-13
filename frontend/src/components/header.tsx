@@ -22,6 +22,9 @@ export const Header = () => {
               <li onClick={logout}
               className="hover:text-sky-400 list-none cursor-pointer"
               >Sair</li>
+              <Link to={"/user/profile"} className="hover:text-sky-400">
+                Perfil
+              </Link>
             </>
           ) : (
             <>
