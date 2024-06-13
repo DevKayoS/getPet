@@ -1,13 +1,15 @@
 import { ReactNode, createContext, useContext } from "react";
 import useAuth from "@/hooks/useAuth";
 import { Iuser } from "@/interface/IUser";
+import { IUserLogin } from "@/interface/IUserLogin";
 
 interface AuthContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: (user: Iuser) => Promise<void | any>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   authenticated: boolean,
-  logout: (()=> void)
+  logout: (()=> void),
+  login: (user: IUserLogin) => Promise<void | unknown>
 }
 
 const Context = createContext<AuthContextType | undefined>(undefined)
