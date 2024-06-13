@@ -2,10 +2,10 @@ interface InputProps {
   type: string,
   text: string,
   name: string,
-  placeholder: string,
+  placeholder?: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleOnChange: (handleOnChange: any) => void,
-  value: string,
+  value?: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   multiple: any
 
