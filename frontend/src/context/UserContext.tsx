@@ -14,10 +14,10 @@ const Context = createContext<AuthContextType | undefined>(undefined)
 
 function UserProvider({children}: {children: ReactNode}){
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {authenticated, register, logout} = useAuth()
+  const {authenticated, register, logout, login} = useAuth()
 
   return(
-    <Context.Provider value={{authenticated, register, logout}}>{children}</Context.Provider>
+    <Context.Provider value={{authenticated, register, logout, login}}>{children}</Context.Provider>
   )
 }
 function useAuthContext() {

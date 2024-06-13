@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom'
 import {toast } from "sonner";
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
+import { IUserLogin } from "@/interface/IUserLogin";
 
 export default function useAuth(){
 const [authenticated, setAuthenticated] = useState(false)
@@ -42,7 +43,6 @@ useEffect(()=> {
 
     history('/')
   }
-
   async function logout(){
     setAuthenticated(false)
     localStorage.removeItem('token')
@@ -50,5 +50,24 @@ useEffect(()=> {
     history('/')
     toast.success('Logout realizado com sucesso!')
   }
-  return {authenticated, register, logout}
+  async function login(user: IUserLogin){
+    try {
+      const data = await api.post('/users/login', user).then((response)=> {
+        return response.data
+      })
+      await authUser(data)
+      toast.success('Login realizado com sucesso!')
+    } catch (error: unknown) {
+      // tratar erro
+      if(error instanceof AxiosError){
+        const messageError = error.response?.data?.message
+        toast.error(`Algo deu errado: ${messageError}`)
+      } else {
+        toast.error('Erro desconhecido!')
+      }
+    }
+  }
+  
+  return {authenticated, register, logout, login}
 }
+
