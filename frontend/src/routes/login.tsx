@@ -46,7 +46,7 @@ export function Login(){
         multiple={undefined}       
          />
      
-        <input type="submit" value="Cadastrar" className="bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-8 hover:bg-sky-900 cursor-pointer"/>
+        <input type="submit" value="Entrar" className="bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-8 hover:bg-sky-900 cursor-pointer"/>
     </form>
     <div className="flex items-center mt-5">
       <p className="m-auto">Não tem conta? <Link to={"/register"} className="font-bold text-sky-400 hover:text-sky-700">Clique aqui</Link></p>

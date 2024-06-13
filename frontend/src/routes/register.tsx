@@ -27,7 +27,7 @@ export function Register(){
   }
   return(
     <div className="p-10">
-      <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center m-auto  w-96 bg-zinc-6000/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
+      <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center m-auto  w-96 bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
         <Input
           text="Nome"
           type="text"
