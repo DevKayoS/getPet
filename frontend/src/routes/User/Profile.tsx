@@ -2,10 +2,17 @@ import { Input } from "@/components/form/input";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import api from '../../utils/api'
+import { Iuser } from "@/interface/IUser";
 
 export function Profile(){
-  const [image, setImage] = useState("")
-  const [user,setUser] = useState({})
+  // const [image, setImage] = useState("")
+  const [user,setUser] = useState({
+    _id: '',
+    name: '',
+    email: '',
+    phone: '',
+    image: null,
+  })
 
   const [token] = useState(localStorage.getItem('token') || '')
 
@@ -20,25 +27,26 @@ export function Profile(){
   },[token])
   
  
-  function onFileChange(e: { target: { value: any; files: any[]; }; }){
-    setUser({...user, [e.target.value]: e.target.files[0]})
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function onFileChange(e: { target: {[x: string]: any; value: any; files: any[]; }; }){
+    setUser({...user, [e.target.name]: e.target.files[0]})
   }
-  function handleOnChange(e: { target: { value: any; }; }){
-    setUser({...user, [e.target.value]: e.target.value})
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleOnChange(e: { target: {name: any; value: any; }; }){
+    setUser({...user, [e.target.name]: e.target.value})
   }
 
   async function handleSubmit(e: { preventDefault: () => void; }){
     e.preventDefault()
 
     const formData =  new FormData()
+  
 
-    const userFormData = Object.keys(user).forEach((key) => formData.append(key, user[key])
-    )
-
-    console.log(formData)
-    console.log(user.name)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+    Object.keys(user).forEach((key) => formData.append(key, (user as any)[key]))
+ 
     
-    const data =  await api.patch(`/users/edit/${user._id}`, formData, {
+    await api.patch(`/users/edit/${user._id}`, formData, {
       headers: {
         Authorization: `Bearer ${JSON.parse(token)}`,
         'Content-type': 'multipart/form-data'
@@ -57,7 +65,7 @@ export function Profile(){
 
     <div className="text-2xl text-slate-100">
       <p>preview Imagem</p>
-      <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center m-auto max-w-xl bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
+      <form onSubmit={handleSubmit} className=" text-xl flex flex-col items-center justify-center m-auto max-w-xl bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
       <Input
           text="Imagem"
           type="file"
@@ -70,7 +78,7 @@ export function Profile(){
           type="text"
           name="name"
           placeholder="Digite o seu nome"
-          value={user.name}
+          value={user.name || ''}
           handleOnChange={handleOnChange} 
           multiple={undefined}       
            />
