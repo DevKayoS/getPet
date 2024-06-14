@@ -191,6 +191,18 @@ export class UserController {
       return
     }
     user.phone = phone
+    if(!password){
+      res.status(422).json({
+        message: 'A senha é obrigatória'
+      })
+      return
+    }
+    if(!confirmPassword){
+      res.status(422).json({
+        message: 'A confirmação de senha é obrigatória'
+      })
+      return
+    }
     if(password !== confirmPassword){
       res.status(422).json({message: 'As senhas não conferem'})
       return
