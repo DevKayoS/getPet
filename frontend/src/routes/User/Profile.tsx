@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Input } from "@/components/form/input";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import api from '../../utils/api'
-import { Iuser } from "@/interface/IUser";
 
 export function Profile(){
-  // const [image, setImage] = useState("")
+  const [image, setImage] = useState("")
+  const [preview, setPreview] = useState<File | null>(null);
   const [user,setUser] = useState({
     _id: '',
     name: '',
@@ -27,12 +28,14 @@ export function Profile(){
   },[token])
   
  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function onFileChange(e: { target: {[x: string]: any; value: any; files: any[]; }; }){
-    setUser({...user, [e.target.name]: e.target.files[0]})
+
+  function onFileChange(e: ChangeEvent<HTMLInputElement>){
+    if (e.target.files && e.target.files[0]) {
+      setUser({ ...user, [e.target.name]: e.target.files[0] });
+    }
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleOnChange(e: { target: {name: any; value: any; }; }){
+ 
+  function handleOnChange(e: ChangeEvent<HTMLInputElement>){
     setUser({...user, [e.target.name]: e.target.value})
   }
 
@@ -41,9 +44,7 @@ export function Profile(){
 
     const formData =  new FormData()
   
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-    Object.keys(user).forEach((key) => formData.append(key, (user as any)[key]))
+   await Object.keys(user).forEach((key) => formData.append(key, (user as any)[key]))
  
     
     await api.patch(`/users/edit/${user._id}`, formData, {
@@ -64,7 +65,13 @@ export function Profile(){
   return(
 
     <div className="text-2xl text-slate-100">
-      <p>preview Imagem</p>
+      <div>
+        {(user.image || preview) && (
+          <img src={preview ? URL.createObjectURL(preview) :
+            `${process.env.REACT_APP_API}/images/users/${user.image}`} 
+             alt={user.name} /> 
+        )}
+      </div>
       <form onSubmit={handleSubmit} className=" text-xl flex flex-col items-center justify-center m-auto max-w-xl bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
       <Input
           text="Imagem"
@@ -78,7 +85,7 @@ export function Profile(){
           type="text"
           name="name"
           placeholder="Digite o seu nome"
-          value={user.name || ''}
+          value={user.name}
           handleOnChange={handleOnChange} 
           multiple={undefined}       
            />
@@ -116,7 +123,7 @@ export function Profile(){
           handleOnChange={handleOnChange} 
           multiple={undefined}       
            />
-          <input type="submit" value="Cadastrar" className=" bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-12 hover:bg-sky-900 cursor-pointer"/>
+          <input type="submit" value="Editar" className=" bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-12 hover:bg-sky-900 cursor-pointer"/>
       </form>
       <Toaster richColors/>
     </div>
