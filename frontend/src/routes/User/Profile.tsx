@@ -1,14 +1,29 @@
 import { Input } from "@/components/form/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "sonner";
+import api from '../../utils/api'
 
 export function Profile(){
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
-  const [password, setPassword] = useState("")
+  const [ password, setPassword] = useState("")
   const [image, setImage] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [ confirmPassword, setConfirmPassword] = useState("")
+  const [user,setUser] = useState({})
+
+  const [token] = useState(localStorage.getItem('token') || '')
+
+  useEffect(()=>{
+    api.get('/users/checkuser', {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    }).then((response)=> {
+      setUser(response.data)
+    })
+  },[token])
+  
  
   function onFileChange(e){
 
@@ -23,7 +38,7 @@ export function Profile(){
           text="Imagem"
           type="file"
           name="image"
-          value={image}
+          
           handleOnChange={onFileChange} 
           multiple={undefined}       
            />
@@ -32,7 +47,7 @@ export function Profile(){
           type="text"
           name="name"
           placeholder="Digite o seu nome"
-          value={name}
+          value={user.name}
           handleOnChange={(e)=> setName(e.target.value)} 
           multiple={undefined}       
            />
@@ -41,7 +56,7 @@ export function Profile(){
           type="text"
           name="email"
           placeholder="Digite o seu e-mail"
-          value={email} 
+          value={user.email} 
           handleOnChange={(e)=> setEmail(e.target.value)} 
           multiple={undefined}       
            />
@@ -50,7 +65,7 @@ export function Profile(){
           type="text"
           name="phone"
           placeholder="Digite o seu telefone"
-          value={phone}
+          value={user.phone}
           handleOnChange={(e)=> setPhone(e.target.value)} 
           multiple={undefined}       
            />
@@ -70,7 +85,7 @@ export function Profile(){
           handleOnChange={(e)=> setConfirmPassword(e.target.value)} 
           multiple={undefined}       
            />
-          <input type="submit" value="Cadastrar" className="bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-8 hover:bg-sky-900 cursor-pointer"/>
+          <input type="submit" value="Cadastrar" className=" bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-12 hover:bg-sky-900 cursor-pointer"/>
       </form>
       <Toaster richColors/>
     </div>
