@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import { Input } from "@/components/ui/input"
 
 interface InputProps {
   type: string,
@@ -14,11 +15,11 @@ interface InputProps {
 }
 
 
-export function Input({type, text, name, placeholder, handleOnChange, value, multiple}: InputProps){
+export function InputConfig({type, text, name, placeholder, handleOnChange, value, multiple}: InputProps){
   return(
-    <div className="flex flex-col w-full gap-1 mb-2">
+    <div className="grid w-full max-w-sm items-center gap-1.5">
       <label htmlFor={name}>{text}</label>
-      <input 
+      <Input
       type={type} 
       name={name} 
       id={name} 
@@ -26,7 +27,6 @@ export function Input({type, text, name, placeholder, handleOnChange, value, mul
       onChange={handleOnChange} 
       value={value}
       {...(multiple ?  {multiple} : '')}
-      className="p-2 rounded-md text-black"
       />
     </div>
   )

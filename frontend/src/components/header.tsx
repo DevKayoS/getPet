@@ -2,9 +2,28 @@ import { Link } from "react-router-dom"
 import Logo from '../assets/img/favicon-32x32.png'
 // context
 import {useAuthContext} from "../context/UserContext"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import api from "@/utils/api"
+import { useState, useEffect } from "react"
+import { ModeToggle } from "./layout/modeToggle"
+
 
 export const Header = () => {
   const {authenticated, logout} = useAuthContext()
+  const [user, setUser] = useState({
+    image: '',
+  })
+  const [token] = useState(localStorage.getItem('token') || '')
+
+  useEffect(()=>{
+    api.get('/users/checkuser', {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    }).then((response)=> {
+      setUser(response.data)
+    })
+  },[token])
 
   return(
     <div>
@@ -19,12 +38,17 @@ export const Header = () => {
           </Link>
           {authenticated ? (
             <>
-              <li onClick={logout}
-              className="hover:text-sky-400 list-none cursor-pointer"
-              >Sair</li>
               <Link to={"/user/profile"} className="hover:text-sky-400">
                 Perfil
               </Link>
+              <li onClick={logout}
+              className="hover:text-sky-400 list-none cursor-pointer"
+              >Sair</li>
+              <Avatar>
+                <AvatarImage src={`${import.meta.env.VITE_API}/images/users/${user.image}`} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+
             </>
           ) : (
             <>
@@ -36,7 +60,7 @@ export const Header = () => {
               </Link>
             </>
           )}
-          
+          <ModeToggle/>
         </div>
       </nav>
     </div>

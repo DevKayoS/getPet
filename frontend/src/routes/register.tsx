@@ -1,7 +1,7 @@
-import { Input } from "@/components/form/input";
+import { InputConfig } from "@/components/form/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner"
 import { useAuthContext} from '../context/UserContext'
 
 export function Register(){
@@ -28,7 +28,7 @@ export function Register(){
   return(
     <div className="p-10">
       <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center m-auto  w-96 bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
-        <Input
+        <InputConfig
           text="Nome"
           type="text"
           name="name"
@@ -37,7 +37,7 @@ export function Register(){
           handleOnChange={(e)=> setName(e.target.value)} 
           multiple={undefined}       
            />
-        <Input
+        <InputConfig
           text="E-mail"
           type="text"
           name="email"
@@ -46,7 +46,7 @@ export function Register(){
           handleOnChange={(e)=> setEmail(e.target.value)} 
           multiple={undefined}       
            />
-        <Input
+        <InputConfig
           text="Telefone"
           type="text"
           name="phone"
@@ -55,7 +55,7 @@ export function Register(){
           handleOnChange={(e)=> setPhone(e.target.value)} 
           multiple={undefined}       
            />
-        <Input
+        <InputConfig
           text="Senha"
           type="password"
           name="password"
@@ -64,7 +64,7 @@ export function Register(){
           handleOnChange={(e)=> setPassword(e.target.value)} 
           multiple={undefined}       
            />
-        <Input
+        <InputConfig
           text="Confirme a sua senha"
           type="password"
           name="confirmPassword"

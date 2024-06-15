@@ -1,9 +1,9 @@
-import { Input } from "@/components/form/input";
+import {  InputConfig } from "@/components/form/input";
 import { useAuthContext } from "@/context/UserContext";
 import { IUserLogin } from "@/interface/IUserLogin";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner"
 
 export function Login(){ 
   const [email, setEmail] = useState("")
@@ -26,7 +26,7 @@ export function Login(){
     <div className="p-10">
     <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center m-auto  w-96 bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
      
-      <Input
+      <InputConfig
         text="E-mail"
         type="text"
         name="email"
@@ -36,7 +36,7 @@ export function Login(){
         multiple={undefined}       
          />
      
-      <Input
+      <InputConfig
         text="Senha"
         type="password"
         name="password"

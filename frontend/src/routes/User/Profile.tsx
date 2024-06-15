@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Input } from "@/components/form/input";
+import { InputConfig } from "@/components/form/input";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
+import {  toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner"
 import api from '../../utils/api'
 import { RoundedImage } from "@/components/layout/roundedImage";
 
@@ -74,14 +75,14 @@ export function Profile(){
                alt={user.name} /> 
           )}
         </div>
-      <Input
+      <InputConfig
           text="Imagem"
           type="file"
           name="image"
           handleOnChange={onFileChange} 
           multiple={undefined}       
            />
-      <Input
+      <InputConfig
           text="Nome"
           type="text"
           name="name"
@@ -90,7 +91,7 @@ export function Profile(){
           handleOnChange={handleOnChange} 
           multiple={undefined}       
            />
-        <Input
+        <InputConfig
           text="E-mail"
           type="text"
           name="email"
@@ -99,7 +100,7 @@ export function Profile(){
           handleOnChange={handleOnChange} 
           multiple={undefined}       
            />
-        <Input
+        <InputConfig
           text="Telefone"
           type="text"
           name="phone"
@@ -108,7 +109,7 @@ export function Profile(){
           handleOnChange={handleOnChange} 
           multiple={undefined}       
            />
-        <Input
+        <InputConfig
           text="Senha"
           type="password"
           name="password"
@@ -116,7 +117,7 @@ export function Profile(){
           handleOnChange={handleOnChange} 
           multiple={undefined}       
            />
-        <Input
+        <InputConfig
           text="Confirme a sua senha"
           type="password"
           name="confirmPassword"
