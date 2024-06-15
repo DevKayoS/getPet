@@ -15,7 +15,7 @@ export function ModeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent   className="w-10 mt-2 flex flex-col gap-2">
+      <DropdownMenuContent   className="w-10 mt-2 flex flex-col gap-2 cursor-pointer">
       <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light

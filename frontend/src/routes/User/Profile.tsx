@@ -66,8 +66,8 @@ export function Profile(){
  
   return(
 
-    <div className="text-2xl text-slate-100">
-      <form onSubmit={handleSubmit} className=" text-xl flex flex-col items-center justify-center m-auto max-w-xl bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
+    <div className="p-4">
+      <form onSubmit={handleSubmit} className=" flex flex-col items-center justify-center m-auto  w-96 bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
         <div>
           {(user.image || preview) && (
             <RoundedImage src={preview ? URL.createObjectURL(preview) :
