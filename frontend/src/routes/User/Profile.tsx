@@ -68,7 +68,7 @@ export function Profile(){
       <div>
         {(user.image || preview) && (
           <img src={preview ? URL.createObjectURL(preview) :
-            `${process.env.REACT_APP_API}/images/users/${user.image}`} 
+            `${import.meta.env.VITE_API}/images/users/${user.image}`} 
              alt={user.name} /> 
         )}
       </div>

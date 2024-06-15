@@ -24,7 +24,7 @@ export function Input({type, text, name, placeholder, handleOnChange, value, mul
       id={name} 
       placeholder={placeholder} 
       onChange={handleOnChange} 
-      value={value || ''}
+      value={value}
       {...(multiple ?  {multiple} : '')}
       className="p-2 rounded-md text-black"
       />
