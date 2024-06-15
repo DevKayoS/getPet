@@ -3,9 +3,9 @@ import { Input } from "@/components/form/input";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import api from '../../utils/api'
+import { RoundedImage } from "@/components/layout/roundedImage";
 
 export function Profile(){
-  const [image, setImage] = useState("")
   const [preview, setPreview] = useState<File | null>(null);
   const [user,setUser] = useState({
     _id: '',
@@ -31,6 +31,7 @@ export function Profile(){
 
   function onFileChange(e: ChangeEvent<HTMLInputElement>){
     if (e.target.files && e.target.files[0]) {
+      setPreview(e.target.files[0])
       setUser({ ...user, [e.target.name]: e.target.files[0] });
     }
   }
@@ -65,14 +66,14 @@ export function Profile(){
   return(
 
     <div className="text-2xl text-slate-100">
-      <div>
-        {(user.image || preview) && (
-          <img src={preview ? URL.createObjectURL(preview) :
-            `${import.meta.env.VITE_API}/images/users/${user.image}`} 
-             alt={user.name} /> 
-        )}
-      </div>
       <form onSubmit={handleSubmit} className=" text-xl flex flex-col items-center justify-center m-auto max-w-xl bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
+        <div>
+          {(user.image || preview) && (
+            <RoundedImage src={preview ? URL.createObjectURL(preview) :
+              `${import.meta.env.VITE_API}/images/users/${user.image}`} 
+               alt={user.name} /> 
+          )}
+        </div>
       <Input
           text="Imagem"
           type="file"
