@@ -38,6 +38,9 @@ export const Header = () => {
           </Link>
           {authenticated ? (
             <>
+            <Link to={"/users/mypets"} className="hover:text-sky-400">
+                Dashboard
+              </Link>
               <Link to={"/user/profile"} className="hover:text-sky-400">
                 Perfil
               </Link>

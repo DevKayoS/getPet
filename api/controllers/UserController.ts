@@ -165,12 +165,6 @@ export class UserController {
     if(req.file){
      user.image = req.file.filename
     }
-    imageUpload(req, res, function (err) {
-      if (err) {
-        return res.status(422).json({
-          message: err.message
-        });
-      }})
 
     // validations
     if(!name){

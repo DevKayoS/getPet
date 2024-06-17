@@ -8,6 +8,7 @@ import { Home } from './routes/home.tsx'
 import { Register } from './routes/register.tsx'
 import { Login } from './routes/login.tsx'
 import { Profile } from './routes/User/Profile.tsx'
+import { MyPets } from './routes/Pets/mypets.tsx'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: '/user/profile',
         element: <Profile/>
+      },
+      {
+        path: "/users/mypets",
+        element: <MyPets/>
       }
     ]
   }
