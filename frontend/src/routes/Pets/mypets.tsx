@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { CirclePlus } from 'lucide-react';
 
 export function MyPets() {
-  const [pets, setPets] = useState([])
+  const [pets] = useState([])
 
 
   return(
@@ -12,7 +12,7 @@ export function MyPets() {
     <div className="flex justify-between mb-5 items-center">
       <h1>MyPets</h1>
       <Button asChild>
-        <Link className='flex gap-2' to={''}><CirclePlus className="size-5"/> Cadastrar Pet</Link>
+        <Link className='flex gap-2' to={'/pets/addpet'}><CirclePlus className="size-5"/> Cadastrar Pet</Link>
         </Button>
     </div>
     <div>
