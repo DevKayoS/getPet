@@ -1,3 +1,5 @@
+import multer from "multer"
+
 const express = require('express')
 const cors = require('cors')
 
@@ -20,6 +22,23 @@ const PetRoutes =  require('./routes/PetRoutes')
 
 app.use('/pets', PetRoutes)
 app.use('/users', UserRoutes)
+
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    // Erro gerado pelo multer
+    return res.status(422).json({
+      message: 'Erro no upload do arquivo',
+      error: err.message
+    });
+  } else if (err) {
+    // Outros erros
+    return res.status(500).json({
+      message: 'Por favor, envie apenas arquivos JPG,PNG ou JPEG!',
+      error: err.message
+    });
+  }
+  next();
+});
 
 
 

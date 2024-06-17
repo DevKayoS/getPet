@@ -3,6 +3,7 @@ import { Request, Response} from "express";
 import { createUserToken } from "../helpers/create-user-token";
 import { getToken } from "../helpers/get-token";
 import { getUserbyToken } from "../helpers/get-user-by-token";
+import { imageUpload } from "../helpers/image-upload";
 
 const jwt = require('jsonwebtoken')
 
@@ -164,7 +165,12 @@ export class UserController {
     if(req.file){
      user.image = req.file.filename
     }
-
+    imageUpload(req, res, function (err) {
+      if (err) {
+        return res.status(422).json({
+          message: err.message
+        });
+      }})
 
     // validations
     if(!name){
