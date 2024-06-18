@@ -14,6 +14,7 @@ export const Header = () => {
     image: '',
   })
   const [token] = useState(localStorage.getItem('token') || '')
+  // const  JSONtoken = JSON.parse(token)
 
   useEffect(()=>{
     api.get('/users/checkuser', {
@@ -33,19 +34,19 @@ export const Header = () => {
           <h1 className="text-xl">Get a Pet</h1>
         </Link>
         <div className="flex gap-5 text-lg">
-        <Link to={"/"} className="hover:text-sky-400">
+        <Link to={"/"} className="hover:text-emerald-500">
             Adotar
           </Link>
           {authenticated ? (
             <>
-            <Link to={"/users/mypets"} className="hover:text-sky-400">
+            <Link to={"/users/mypets"} className="hover:text-emerald-500">
                 Dashboard
               </Link>
-              <Link to={"/user/profile"} className="hover:text-sky-400">
+              <Link to={"/user/profile"} className="hover:text-emerald-500">
                 Perfil
               </Link>
               <li onClick={logout}
-              className="hover:text-sky-400 list-none cursor-pointer"
+              className="hover:text-emerald-500 list-none cursor-pointer"
               >Sair</li>
               <Avatar>
                 <AvatarImage src={`${import.meta.env.VITE_API}/images/users/${user.image}`} />
@@ -55,10 +56,10 @@ export const Header = () => {
             </>
           ) : (
             <>
-              <Link to={"/login"} className="hover:text-sky-400">
+              <Link to={"/login"} className="hover:text-emerald-500">
                 Entrar
               </Link>
-              <Link to={"/register"} className="hover:text-sky-400">
+              <Link to={"/register"} className="hover:text-emerald-500">
                 Registrar
               </Link>
             </>

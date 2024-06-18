@@ -50,7 +50,7 @@ export function Profile(){
  
     
     await api.patch(`/users/edit/${user._id}`, formData, {
-      headers: {
+      headers: { 
         Authorization: `Bearer ${JSON.parse(token)}`,
         'Content-type': 'multipart/form-data'
       }
@@ -125,7 +125,7 @@ export function Profile(){
           handleOnChange={handleOnChange} 
           multiple={undefined}       
            />
-          <input type="submit" value="Editar" className=" bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-12 hover:bg-sky-900 cursor-pointer"/>
+          <input type="submit" value="Editar" className=" bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-12 hover:bg-emerald-900 cursor-pointer"/>
       </form>
       <Toaster richColors/>
     </div>

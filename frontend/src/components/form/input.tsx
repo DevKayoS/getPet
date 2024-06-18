@@ -8,7 +8,7 @@ interface InputProps {
   placeholder?: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleOnChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
+  value?: string | number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   multiple: any
 

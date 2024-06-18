@@ -73,7 +73,7 @@ export function Register(){
           handleOnChange={(e)=> setConfirmPassword(e.target.value)} 
           multiple={undefined}       
            />
-          <input type="submit" value="Cadastrar" className="bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-8 hover:bg-sky-900 cursor-pointer"/>
+          <input type="submit" value="Cadastrar" className=" bg-zinc-500/20 rounded-md shadow-md  shadow-black w-full h-12 hover:bg-emerald-900 cursor-pointer"/>
       </form>
       <div className="flex items-center mt-5">
         <p className="m-auto">Já tem conta? <Link to={"/login"} className="font-bold text-sky-400 hover:text-sky-700">Clique aqui</Link></p>
