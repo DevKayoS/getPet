@@ -64,7 +64,7 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
   }
 
   return(
-    <form onSubmit={submit} className="flex flex-col items-center justify-center m-auto mt-20 w-96 bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
+    <form onSubmit={submit} className="flex flex-col items-center justify-center m-auto mt-8 mb-20 w-96 bg-zinc-600/20 gap-5 rounded-lg shadow-2xl shadow-black p-4">
       <Carousel
         opts={{
         align: "start",
@@ -77,7 +77,7 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
         ? preview.map((image,index)=>(
           <CarouselItem >
              <Card>
-             <CardContent className="flex aspect-square items-center justify-center p-6">
+             <CardContent className="flex items-center justify-center p-2">
                   <img src={URL.createObjectURL(image)} alt={pet.name} key={`${pet.name}+${index}`}/>
                 </CardContent>
              </Card>
@@ -87,18 +87,27 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
         pet.images.map((image,index)=>(
           <CarouselItem >
              <Card>
-             <CardContent className="flex aspect-square items-center justify-center p-6">
+             <CardContent className="flex items-center justify-center p-2">
                   <img src={`${import.meta.env.VITE_API}/images/pets/${pet.images}`} key={`${pet.name}+${index}`}/>
                 </CardContent>
              </Card>
-            </CarouselItem>
-            
+            </CarouselItem> 
+             
         ))
-
         }
       </CarouselContent>
-      <CarouselPrevious />
-        <CarouselNext />
+      {preview.length > 0 ? (
+        <><CarouselPrevious /><CarouselNext /></>
+      ): (
+        <></>
+      ) }
+       {pet.images ? (
+        <><CarouselPrevious /><CarouselNext /></>
+      ): (
+        <></>
+      ) }
+
+
       </Carousel>
       
       <InputConfig
