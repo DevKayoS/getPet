@@ -3,11 +3,13 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { CirclePlus, Pencil, Trash } from 'lucide-react';
 import api from "@/utils/api";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge"
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import { IPet } from "@/interface/IPet";
 
 export function MyPets() {
-  const [pets, setPets] = useState([])
+  const [pets, setPets] = useState<IPet[]>([])
   const [token] = useState(localStorage.getItem('token')|| '')
 
   useEffect(()=>{
@@ -28,18 +30,29 @@ export function MyPets() {
         <Link className='flex gap-2' to={'/pets/addpet'}><CirclePlus className="size-5"/> Cadastrar Pet</Link>
         </Button>
     </div>
-    <div className="grid grid-cols-4">
+    <div>
       {pets.length > 0   && (
         pets.map((pet)=> (
-          <Card className="m-5 justify-between" key={pet._id}>
+          <Card className="m-5  " key={pet._id}>
           <CardHeader>
-            <CardTitle className="text-xl flex gap-2 items-center">
-            <Avatar>
+            <div className="flex flex-col gap-5">
+                  {pet.available && (
+                    <CardTitle className="justify-end">
+                      <Badge variant='able'>Disponível para adoção</Badge>
+                    </CardTitle>
+                  )}
+              <CardTitle className="text-xl flex gap-3 ">
+              <Avatar>
+              {pet.images && pets.length > 0 ?(
                 <AvatarImage className="max-w-16 min-h-16 rounded-md" src={`${import.meta.env.VITE_API}/images/pets/${pet.images[0]}`} />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              {pet.name}
-              </CardTitle>
+              ) :
+              <AvatarFallback>CN</AvatarFallback>
+            }
+            </Avatar>
+                {pet.name}
+                </CardTitle>
+            </div>
+
             <CardDescription>
               <p>Idade: <span>{pet.age} anos</span></p>
               <p>Peso: <span>{pet.weight} kg</span></p>
@@ -47,16 +60,21 @@ export function MyPets() {
             </CardDescription>
           </CardHeader>
           <CardFooter>
-            {/* colocar uma badge do shadcnui */}
             {pet.available ? (
-              <>
+              <div className="flex items-center gap-4 w-full justify-end">
               {pet.adopter && (
-                <Button>Concluir adoção</Button>
+                <Button><Badge variant="secondary">Concluir adoção</Badge></Button>
               )}
-              <Link to={`/pet/edit/${pet._id}`}><Pencil/></Link>
-              <Button variant='outline'><Trash/></Button>
-              </>
-            ) : <p>Pet já adotado</p>}
+              <Button variant='outline'>
+                <Link to={`/pet/edit/${pet._id}`}>
+                  <Pencil className="size-4"/>
+                  </Link>
+              </Button>
+              <Button>
+                <Trash className="size-4"/>
+                </Button>
+              </div>
+            ) : <Badge variant="destructive">Pet já adotado</Badge>}
           </CardFooter>
         </Card>
         ))
