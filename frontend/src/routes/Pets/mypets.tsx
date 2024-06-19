@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { IPet } from "@/interface/IPet";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export function MyPets() {
   const [pets, setPets] = useState<IPet[]>([])
@@ -21,6 +23,26 @@ export function MyPets() {
       setPets(response.data.pets)
     })
   }, [token])
+
+  async function removePet(name: string,id:string) {
+     await api.delete(`/pets/remove/${id}`,{
+      headers: {
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    })
+    .then((response)=>{
+      const updatedPets = pets.filter((pet)=> pet._id != id)
+      setPets(updatedPets)
+      toast.success('Pet removido com sucesso!', {
+        description: `${name} foi excluido da sua lista de pets`
+      })
+      return response.data
+    })
+    .catch((err)=>{
+      toast.error( `Algo deu errado: ${err.response.data}`)
+      return( err.response.data)
+    })
+  }
 
   return(
    <div>
@@ -70,7 +92,7 @@ export function MyPets() {
                   <Pencil className="size-4"/>
                   </Link>
               </Button>
-              <Button>
+              <Button onClick={()=>removePet(pet.name,pet._id)}>
                 <Trash className="size-4"/>
                 </Button>
               </div>
@@ -83,6 +105,7 @@ export function MyPets() {
         <p>Você ainda não tem pets cadastrados ainda</p>
       )}
     </div>
+    <Toaster richColors/>
    </div>
   )
 }
