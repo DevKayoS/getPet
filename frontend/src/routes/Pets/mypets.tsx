@@ -32,7 +32,7 @@ export function MyPets() {
       }
     })
     .then((response)=>{
-      const updatedPets = pets.filter((pet)=> pet._id != id)
+      const updatedPets = pets.filter((pet)=> pet._id !== id)
       setPets(updatedPets)
       toast.success('Pet removido com sucesso!', {
         description: `${name} foi excluido da sua lista de pets`
@@ -88,7 +88,7 @@ export function MyPets() {
               {pet.adopter && (
                 <Button><Badge variant="secondary">Concluir adoção</Badge></Button>
               )}
-              <EditDialog id={pet._id}/>
+              <EditDialog id={pet._id} name={""} age={""} weight={""} coat={""}/>
               <Button onClick={()=>removePet(pet.name,pet._id)}>
                 <Trash className="size-3"/>
                 </Button>
