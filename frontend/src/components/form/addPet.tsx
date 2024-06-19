@@ -73,21 +73,27 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
           <CarouselItem >
              <Card>
              <CardContent className="flex items-center justify-center p-2">
-                  <img src={URL.createObjectURL(image)} alt={pet.name} key={index}/>
+                  <img 
+                  src={URL.createObjectURL(image)} 
+                  alt={pet.name} 
+                  key={`${pet.name}+${index}`}/>
                 </CardContent>
              </Card>
             </CarouselItem>
         )):
-        pet.images && 
-        pet.images.map((index)=>(
+        pet.images && (
+        pet.images.map((images, index: unknown)=>(
           <CarouselItem >
              <Card>
              <CardContent className="flex items-center justify-center p-2">
-                  <img src={`${import.meta.env.VITE_API}/images/pets/${pet.images}`} key={`${pet.name}+${index}`}/>
+                  <img 
+                  src={`${import.meta.env.VITE_API}/images/pets/${images}`}
+                  alt={pet.name}
+                  key={`${pet.name}+${index}`}/>
                 </CardContent>
              </Card>
             </CarouselItem> 
-             
+        )
         ))
         }
       </CarouselContent>
@@ -141,11 +147,11 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
       />
       <Select onValueChange={handleColor}>
         <SelectTrigger >
-          <SelectValue placeholder="Pelagem" />
+          <SelectValue placeholder={pet.coat || "Pelagem"} />
         </SelectTrigger>
         <SelectContent>
           {coat.map((coat)=>
-            <SelectItem key={coat} value={coat}>{coat}</SelectItem>
+            <SelectItem key={coat} value={ coat}>{ coat}</SelectItem>
           )}
         </SelectContent>
       </Select>

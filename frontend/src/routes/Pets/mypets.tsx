@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { CirclePlus, Pencil, Trash } from 'lucide-react';
+import { CirclePlus, Trash } from 'lucide-react';
 import api from "@/utils/api";
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { IPet } from "@/interface/IPet";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { EditDialog } from "@/components/dialog";
 
 export function MyPets() {
   const [pets, setPets] = useState<IPet[]>([])
@@ -87,13 +88,9 @@ export function MyPets() {
               {pet.adopter && (
                 <Button><Badge variant="secondary">Concluir adoção</Badge></Button>
               )}
-              <Button variant='outline'>
-                <Link to={`/pet/edit/${pet._id}`}>
-                  <Pencil className="size-4"/>
-                  </Link>
-              </Button>
+              <EditDialog id={pet._id}/>
               <Button onClick={()=>removePet(pet.name,pet._id)}>
-                <Trash className="size-4"/>
+                <Trash className="size-3"/>
                 </Button>
               </div>
             ) : <Badge variant="destructive">Pet já adotado</Badge>}

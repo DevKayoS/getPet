@@ -3,7 +3,7 @@ export interface IPet {
   age: string,
   weight: string,
   coat: string,
-  images?: File[] | string,
+  images?: File[],
   available?: boolean,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any 
