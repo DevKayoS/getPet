@@ -15,41 +15,33 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "@/components/ui/carousel"
-
-interface PetDataProps {
-    name: string,
-    weight: number,
-    age: number,
-    coat: string,
-    images?: File[],
-    available: boolean
-  
-}
+import { IPet } from "@/interface/IPet"
 
 interface AddPetFormProps{
-  handleSubmit: () => void,
-  petData: PetDataProps
+  handleSubmit: (pet: IPet) => void
+  petData?: IPet
   btnText: string
 }
 
 export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
-  const [pet, setPet] = useState<PetDataProps>(petData || {
+  const [pet, setPet] = useState<IPet>(petData || {
     name: '',
-    weight: 0,
-    age: 0,
+    age: '',
     coat: '',
+    weight: '',
     images: [],
     available: false
   })
-  const [preview, setPreview] = useState([])
+  const [preview, setPreview] = useState<File[]>([])
   const coat = ["Branco", "Preto", "Castanho", "Caramelo", "Tigrado", "Cinza", "outro"]
   
 
   function onFileChange(e: ChangeEvent<HTMLInputElement>){
-    setPreview(Array.from(e.target.files))
-    setPet({...pet, images: Array.from(e.target.files)})
+    if(e.target.files){
+      setPreview(Array.from(e.target.files))
+      setPet({...pet, images: Array.from(e.target.files)})
+    }
   }
   function handleOnChange(e: ChangeEvent<HTMLInputElement>){
     setPet({...pet, [e.target.name]: e.target.value})
@@ -59,8 +51,11 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
   }
   function submit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
-    console.log(pet)
-    // handleSubmit()
+    if (pet) {
+      handleSubmit(pet);
+    } else {
+      console.error('Pet object is invalid');
+    }
   }
 
   return(
@@ -78,13 +73,13 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
           <CarouselItem >
              <Card>
              <CardContent className="flex items-center justify-center p-2">
-                  <img src={URL.createObjectURL(image)} alt={pet.name} key={`${pet.name}+${index}`}/>
+                  <img src={URL.createObjectURL(image)} alt={pet.name} key={index}/>
                 </CardContent>
              </Card>
             </CarouselItem>
         )):
         pet.images && 
-        pet.images.map((image,index)=>(
+        pet.images.map((index)=>(
           <CarouselItem >
              <Card>
              <CardContent className="flex items-center justify-center p-2">
@@ -101,7 +96,7 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
       ): (
         <></>
       ) }
-       {pet.images ? (
+       {pet.images && pet.images.length > 0 ? (
         <><CarouselPrevious /><CarouselNext /></>
       ): (
         <></>
@@ -113,7 +108,7 @@ export function AddPetForm({handleSubmit, petData, btnText}: AddPetFormProps){
       <InputConfig
         text="Imagens do Pet"
         type="file"
-        name='images'
+        name="images"
         handleOnChange={onFileChange}
         multiple={true}
       />

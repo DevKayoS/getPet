@@ -39,7 +39,7 @@ export class PetController {
     }
     if(!coat){
       res.status(422).json({
-        message: 'o campo raça é obrigatório'
+        message: 'o campo pelagem é obrigatório'
       }) 
       return
     }
