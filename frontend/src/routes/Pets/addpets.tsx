@@ -1,10 +1,9 @@
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Toaster } from "@/components/ui/sonner"
 import  {toast} from 'sonner'
 import { AddPetForm } from '@/components/form/addPet'
-import { CirclePlus } from 'lucide-react'
 import { IPet } from '@/interface/IPet'
 
 export function AddPet() {
