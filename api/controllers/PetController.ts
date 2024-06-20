@@ -244,24 +244,19 @@ export class PetController {
     }
     if(!coat){
       res.status(422).json({
-        message: 'o campo raça é obrigatório'
+        message: 'o campo pelagem é obrigatório'
       }) 
       return
     } else {
       updatedData.coat = coat
     }
   
-    if (!images || images.length === 0) {
-      res.status(422).json({
-        message: 'O campo imagem é obrigatório',
-      });
-      return;
-    } else {
-      updatedData.images = []
-      images.map((image)=>{
-        updatedData.images.push(image.filename)
-      })
-    }
+  if(images.length > 0){
+    updatedData.images = []
+    images.map((image)=>{
+      updatedData.images.push(image.filename)
+    })
+  }
 
     await Pet.findByIdAndUpdate(id, updatedData)
 

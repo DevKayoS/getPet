@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { Pencil } from "lucide-react"
 import { AddPetForm } from "./form/addPet"
-import { ChangeEvent, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import api from "@/utils/api"
 import { IPet } from "@/interface/IPet"
 import {  toast } from "sonner";
@@ -20,7 +20,8 @@ export function EditDialog({id}: IPet) {
     name: '',
     age: '',
     weight: '',
-    coat: ''
+    coat: '',
+    images: []
   })
   const [token] = useState(localStorage.getItem('token')|| '')
 
@@ -35,20 +36,20 @@ export function EditDialog({id}: IPet) {
     })
   }, [token, id])
 
-  async function updatePet(e){
-    e.preventDefault()
-
+  async function updatePet(updatedPet: IPet){
     const formData =  new FormData()
 
-    await Object.keys(pet).forEach((key)=> {
+    await Object.keys(updatedPet).forEach((key)=>{
       if(key === 'images'){
-        for(let i = 0; i < (pet[key] as File[]).length; i++ ){
-          formData.append('images', (pet[key] as File[])[i])
+        for(let i = 0; i < (updatedPet[key] as File[]).length; i++){
+          formData.append('images', (updatedPet[key] as File[])[i])
         }
       } else {
-        formData.append(key, pet[key])
+        formData.append(key, String(updatedPet[key]))
       }
     })
+    console.log(formData)
+    console.log(pet)
 
     const data = await api.patch(`/pets/${pet._id}`, formData, {
       headers: {
@@ -59,10 +60,11 @@ export function EditDialog({id}: IPet) {
       toast.success('Pet atualizado com sucesso',{
         description: `Mudanças realizada nos dados do Pet: ${pet.name}, foram salvas! `
       })
-      return response.data
+      console.log(response.data)
+       return response.data
     }).catch((err)=> {
-      toast.error('Algo deu errado',{
-        description: err.message.data
+      toast.error('Algo deu errado! ',{
+        description: `${err.response.data.message}`
       })
       return err.response.data
     })
