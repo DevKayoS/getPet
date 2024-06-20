@@ -53,7 +53,7 @@ export function MyPets() {
         <Link className='flex gap-2' to={'/pets/addpet'}><CirclePlus className="size-5"/> Cadastrar Pet</Link>
         </Button>
     </div>
-    <div>
+    <div className="grid md:grid-cols-4 grid-cols-1">
       {pets.length > 0   && (
         pets.map((pet)=> (
           <Card className="m-5  " key={pet._id}>

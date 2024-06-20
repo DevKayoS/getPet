@@ -1,3 +1,4 @@
+import { PetDetailsDialog } from "@/components/petDetailsDialog"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
@@ -68,19 +69,13 @@ export function Home(){
           <CardDescription>
             <p>Idade: <span>{pet.age} anos</span></p>
             <p>Peso: <span>{pet.weight} kg</span></p>
-            <p>Pelagem: <span>{pet.coat}</span></p>
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex justify-center items-center  gap-2">
           {pet.available ? (
           <div className="flex justify-between items-center gap-2 w-full">
           <Badge variant='able' className="cursor-pointer w-full items-center justify-center">Disponível </Badge>
-          <Badge className="cursor-pointer w-full items-center justify-center" variant="default">
-          <Link to={`/pets/details/${pet._id}`}>
-            Detalhes
-          </Link>
-          </Badge>
-        
+          <PetDetailsDialog id={pet._id} name={""} age={""} weight={""} coat={""}/>
           </div>
           ):(<Badge variant='destructive'>Adotado</Badge>)}
         </CardFooter>
