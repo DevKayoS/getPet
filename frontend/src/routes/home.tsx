@@ -1,4 +1,3 @@
-import { PetDetails } from "@/components/petDetails"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
@@ -72,9 +71,18 @@ export function Home(){
             <p>Pelagem: <span>{pet.coat}</span></p>
           </CardDescription>
         </CardHeader>
-        <CardFooter className="flex justify-between items-center gap-2">
-          {pet.available ? (<Badge variant='able' className="cursor-pointer w-full items-center justify-center">Disponível </Badge>):(<Badge variant='destructive'>Adotado</Badge>)}
-          <PetDetails/>
+        <CardFooter className="flex justify-center items-center  gap-2">
+          {pet.available ? (
+          <div className="flex justify-between items-center gap-2 w-full">
+          <Badge variant='able' className="cursor-pointer w-full items-center justify-center">Disponível </Badge>
+          <Badge className="cursor-pointer w-full items-center justify-center" variant="default">
+          <Link to={`/pets/details/${pet._id}`}>
+            Detalhes
+          </Link>
+          </Badge>
+        
+          </div>
+          ):(<Badge variant='destructive'>Adotado</Badge>)}
         </CardFooter>
       </Card>
     ))}

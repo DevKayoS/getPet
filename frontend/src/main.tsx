@@ -10,6 +10,7 @@ import { Login } from './routes/login.tsx'
 import { Profile } from './routes/User/Profile.tsx'
 import { MyPets } from './routes/Pets/mypets.tsx'
 import { AddPet } from './routes/Pets/addpets.tsx'
+import { PetDetails } from './routes/Pets/petDetails.tsx'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/pets/addpet",
         element: <AddPet/>
+      },
+      {
+        path: "/pets/details/:id",
+        element: <PetDetails/>
       }
     ]
   }
