@@ -1,9 +1,10 @@
 import { IPet } from "@/interface/IPet"
 import api from "@/utils/api"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { toast } from "sonner"
 import { Toaster } from "@/components/ui/sonner"
+import { Button } from "@/components/ui/button"
 
 export function PetDetails(){
   const [pet, setPet] = useState<IPet>({
@@ -25,12 +26,34 @@ export function PetDetails(){
     return err.response.data
    }) 
   }, [id])
-  console.log(pet)
 
   return(
-    <div>
-      <h1 >{pet.name}</h1>
-      <Toaster richColors/>
-    </div>
+    <>
+      {pet.name && (
+        <section>
+            <div>
+              <h1>Conhcendo o Pet: {pet.name}</h1>
+              <p>Se tiver interesse, marque uma visita para conhecê-lo</p>
+            </div>
+            <div>
+              {pet.images && pet.images.length > 0 && pet.images.map((image, index)=>(
+                <img
+                src={`${import.meta.env.VITE_API}/images/pets/${image}`}
+                alt={pet.name}
+                key={index}
+                />
+              ))}
+            </div>
+            <p><span>Peso: </span>{pet.weight}kg</p>
+            <p><span>Idade: </span>{pet.age} anos</p>
+            {token ? (
+             <Button>Solicitar Visita</Button>
+            ):(
+            <p>Você precisa <Link to={'/register'}>criar uma conta</Link> para solicitar a visita</p>
+            )}
+          <Toaster richColors/>
+        </section>
+      )}
+    </>
   )
 }
