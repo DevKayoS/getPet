@@ -1,10 +1,10 @@
+import { PetDetails } from "@/components/petDetails"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
 import { Toaster } from "@/components/ui/sonner"
 import { IPet } from "@/interface/IPet"
 import api from "@/utils/api"
-import { Avatar } from "@radix-ui/react-avatar"
 
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
@@ -33,7 +33,7 @@ export function Home(){
       <div className="grid md:grid-cols-4 grid-cols-1">
       { pets.length > 0 &&
         pets.map((pet)=>(
-        <Card className="m-5" key={pet._id}>
+        <Card className="md:m-5 max-w-80 m-auto mt-8" key={pet._id}>
         <CardHeader>
           <div className="flex flex-col gap-">
         <Carousel
@@ -46,9 +46,10 @@ export function Home(){
         {pet.images && (
         pet.images.map((images, index: unknown)=>(
           <CarouselItem >
-             <Card>
-             <CardContent className="flex min-h-36 aspect-square items-center justify-center p-2">
+             <Card className="flex items-center justify-center m-auto max-w-72 ">
+             <CardContent className="flex min-h-36 max-h-72 m-auto bg-cover outline-none aspect-square items-center justify-center ">
                   <img 
+                  className="bg-cover"
                   src={`${import.meta.env.VITE_API}/images/pets/${images}`}
                   alt={pet.name}
                   key={`${pet.name}+${index}`}/>
@@ -61,7 +62,7 @@ export function Home(){
       </CarouselContent>
         <CarouselPrevious /><CarouselNext />
       </Carousel>
-            <CardTitle className="text-xl flex gap-3 ">
+            <CardTitle className="text-xl flex gap-3 mt-3">
               {pet.name}
             </CardTitle>
           </div>
@@ -71,8 +72,9 @@ export function Home(){
             <p>Pelagem: <span>{pet.coat}</span></p>
           </CardDescription>
         </CardHeader>
-        <CardFooter>
-          {pet.available ? (<Link to={'/'}><Badge variant='able'>disponível para adoção</Badge></Link>):(<Badge variant='destructive'>Pet adotado</Badge>)}
+        <CardFooter className="flex justify-between items-center gap-2">
+          {pet.available ? (<Badge variant='able' className="cursor-pointer w-full items-center justify-center">Disponível </Badge>):(<Badge variant='destructive'>Adotado</Badge>)}
+          <PetDetails/>
         </CardFooter>
       </Card>
     ))}
