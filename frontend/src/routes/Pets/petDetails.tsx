@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button"
     images: [],
   })
   const [token] = useState(localStorage.getItem('token')|| '')
+
   useEffect(()=>{
    api.get(`/pets/${id}`).then((response)=>{
     setPet(response.data.pet)
@@ -25,6 +26,24 @@ import { Button } from "@/components/ui/button"
     return err.response.data
    }) 
   }, [id])
+
+  async function schedule() {
+    const data = await api.patch(`pets/schedule/${pet._id}`, {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    }).then((response)=>{
+      toast.success('Visita solicitada com sucesso',{
+        description: `A solicitação será enviada para o tutor: ${pet.user.name}`
+      })
+      return response.data    
+    }).catch((err)=>{
+      toast.error('Algo deu errado',{
+        description: `${err.response.data.message}`
+      })
+      return err.response.data
+    })
+  }
 
   return(
     <>
@@ -51,12 +70,11 @@ import { Button } from "@/components/ui/button"
               <p><span>Pelagem: </span>{pet.coat}</p>
             </div>
             {token ? (
-             <Button variant='able' >Solicitar Visita</Button>
+             <Button onClick={()=> schedule()} variant='able' >Solicitar Visita</Button>
             ):(
             <p className="text-sm m-auto">Você precisa <Link className="text-emerald-400" to={'/register'}>criar uma conta</Link> para solicitar a visita</p>
             )}
             </div>
-          <Toaster richColors/>
         </section>
       )}
     </>

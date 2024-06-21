@@ -48,7 +48,7 @@ export function MyPets() {
   return(
    <div>
     <div className="flex justify-between mb-5 items-center">
-      <h1 className="font-medium text-2xl">MyPets</h1>
+      <h1 className="font-medium text-2xl">Meus Pets</h1>
       <Button asChild>
         <Link className='flex gap-2' to={'/pets/addpet'}><CirclePlus className="size-5"/> Cadastrar Pet</Link>
         </Button>

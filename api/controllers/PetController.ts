@@ -289,7 +289,7 @@ export class PetController {
 
     if(pet.user._id.equals(user._id)){
       res.status(422).json({
-        message: 'user can not do this action, please try again'
+        message: 'Você não pode agendar visita para o seu próprio pet'
       })
       return
     } 
@@ -297,7 +297,7 @@ export class PetController {
     // check if the logged user already scheduled visit
     if(pet.adopter){
       if(pet.adopter._id.equals(user._id)){
-        res.status(422).json({message: 'you already scheduled visit'})
+        res.status(422).json({message: 'Você já marcou uma visita!'})
         return
       }
     }
