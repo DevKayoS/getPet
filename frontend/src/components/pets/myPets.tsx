@@ -44,6 +44,25 @@ export function MyPets(){
    })
  }
 
+ async function concludeAdoption(id:string, name: string){  
+  api.patch(`/pets/conclude/${id}`, {
+    headers: {
+      Authorization: `Bearer ${JSON.parse(token)}`
+    }
+  }).then((response)=> {
+    toast.success('Parabéns processo de adoção concluido', {
+      description: `${name} adotou o pet com êxito`
+    })
+    return response.data
+  }).catch((err)=> {
+    toast.error('Algo deu errado', {
+      description: `${err.response.data.message}`
+    })
+    return err.response.data
+  })
+
+ }
+
   return(
     <div>
        <div className="flex justify-between mb-5 items-center">
@@ -85,7 +104,7 @@ export function MyPets(){
             {pet.available ? (
               <div className="flex items-center gap-4 w-full justify-end">
               {pet.adopter && (
-                <Button variant="secondary">Concluir adoção</Button>
+                <Button onClick={()=> concludeAdoption(pet._id, pet.adopter.name)} variant="secondary">Concluir adoção</Button>
               )}
               <EditDialog id={pet._id} name={""} age={""} weight={""} coat={""}/>
               <Button onClick={()=>removePet(pet.name,pet._id)}>
