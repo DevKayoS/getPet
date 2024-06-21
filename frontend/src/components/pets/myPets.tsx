@@ -1,17 +1,16 @@
-import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { CirclePlus, Trash } from 'lucide-react';
-import api from "@/utils/api";
-import { Badge } from "@/components/ui/badge"
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import { CirclePlus, Trash } from "lucide-react";
+import { Link } from "react-router-dom";
+import { EditDialog } from "../dialog";
+import { Button } from "../ui/button";
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "../ui/card";
 import { IPet } from "@/interface/IPet";
+import api from "@/utils/api";
+import { useState, useEffect } from "react";
+import { Badge } from "../ui/badge";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
-import { EditDialog } from "@/components/dialog";
 
-export function MyPets() {
+export function MyPets(){
   const [pets, setPets] = useState<IPet[]>([])
   const [token] = useState(localStorage.getItem('token')|| '')
 
@@ -26,28 +25,28 @@ export function MyPets() {
   }, [token])
 
   async function removePet(name: string,id:string) {
-     await api.delete(`/pets/remove/${id}`,{
-      headers: {
-        Authorization: `Bearer ${JSON.parse(token)}`
-      }
-    })
-    .then((response)=>{
-      const updatedPets = pets.filter((pet)=> pet._id !== id)
-      setPets(updatedPets)
-      toast.success('Pet removido com sucesso!', {
-        description: `${name} foi excluido da sua lista de pets`
-      })
-      return response.data
-    })
-    .catch((err)=>{
-      toast.error( `Algo deu errado: ${err.response.data}`)
-      return( err.response.data)
-    })
-  }
+    await api.delete(`/pets/remove/${id}`,{
+     headers: {
+       Authorization: `Bearer ${JSON.parse(token)}`
+     }
+   })
+   .then((response)=>{
+     const updatedPets = pets.filter((pet)=> pet._id !== id)
+     setPets(updatedPets)
+     toast.success('Pet removido com sucesso!', {
+       description: `${name} foi excluido da sua lista de pets`
+     })
+     return response.data
+   })
+   .catch((err)=>{
+     toast.error( `Algo deu errado: ${err.response.data}`)
+     return( err.response.data)
+   })
+ }
 
   return(
-   <div>
-    <div className="flex justify-between mb-5 items-center">
+    <div>
+       <div className="flex justify-between mb-5 items-center">
       <h1 className="font-medium text-2xl">Meus Pets</h1>
       <Button asChild>
         <Link className='flex gap-2' to={'/pets/addpet'}><CirclePlus className="size-5"/> Cadastrar Pet</Link>
@@ -86,7 +85,7 @@ export function MyPets() {
             {pet.available ? (
               <div className="flex items-center gap-4 w-full justify-end">
               {pet.adopter && (
-                <Button><Badge variant="secondary">Concluir adoção</Badge></Button>
+                <Button variant="secondary">Concluir adoção</Button>
               )}
               <EditDialog id={pet._id} name={""} age={""} weight={""} coat={""}/>
               <Button onClick={()=>removePet(pet.name,pet._id)}>
@@ -102,7 +101,6 @@ export function MyPets() {
         <p>Você ainda não tem pets cadastrados ainda</p>
       )}
     </div>
-    <Toaster richColors/>
-   </div>
+    </div>
   )
 }

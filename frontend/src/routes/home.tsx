@@ -1,4 +1,4 @@
-import { PetDetailsDialog } from "@/components/petDetailsDialog"
+import { PetDetailsDialog } from "@/components/pets/petDetailsDialog"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
@@ -7,7 +7,6 @@ import { IPet } from "@/interface/IPet"
 import api from "@/utils/api"
 
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 
 export function Home(){
   const [pets, setPets] = useState<IPet[]>([])

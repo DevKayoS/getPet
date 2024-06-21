@@ -8,7 +8,7 @@ import { Home } from './routes/home.tsx'
 import { Register } from './routes/register.tsx'
 import { Login } from './routes/login.tsx'
 import { Profile } from './routes/User/Profile.tsx'
-import { MyPets } from './routes/Pets/mypets.tsx'
+import { Dashboard} from './routes/Pets/dashboard.tsx'
 import { AddPet } from './routes/Pets/addpets.tsx'
 import { PetDetails } from './routes/Pets/petDetails.tsx'
 
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/users/mypets",
-        element: <MyPets/>
+        element: <Dashboard/>
       },
       {
         path: "/pets/addpet",
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/pets/details/:id",
-        element: <PetDetails/>
+        element: <PetDetails name={''} age={''} weight={''} coat={''}/>
       }
     ]
   }

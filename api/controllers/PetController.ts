@@ -118,10 +118,10 @@ export class PetController {
     const token  = getToken(req,res)?? ''
     const user =  await getUserbyToken(token, res)
 
-    const adoptPets = await Pet.find({'adopter._id': user._id}).sort('-createdAt')
+    const pets  = await Pet.find({'adopter._id': user._id})
 
     res.status(200).json({
-      adoptPets
+      pets 
     })
 
   }
@@ -310,7 +310,7 @@ export class PetController {
       image: user.image
     }
 
-    await Pet.findByIdAndUpdate(id, pet)
+    await Pet.findByIdAndUpdate(pet._id, pet)
 
     res.status(200).json({
       message: `appointment has already been scheduled, please contact ${pet.user.name} at phone ${pet.user.phone}`
