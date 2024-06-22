@@ -10,9 +10,7 @@ import { ModeToggle } from "./layout/modeToggle"
 
 export const Header = () => {
   const {authenticated, logout} = useAuthContext()
-  const [user, setUser] = useState({
-    image: '',
-  })
+  const [user, setUser] = useState({})
   const [token] = useState(localStorage.getItem('token') || '')
   // const  JSONtoken = JSON.parse(token)
 
