@@ -40,7 +40,7 @@ export const Header = () => {
           {authenticated ? (
             <>
             <Link to={"/users/mypets"} className="hover:text-emerald-500">
-                Dashboard
+                Meus Pets
               </Link>
               <Link to={"/user/profile"} className="hover:text-emerald-500">
                 Perfil
