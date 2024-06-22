@@ -2,9 +2,7 @@ import { IPet } from "@/interface/IPet"
 import api from "@/utils/api"
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
 import { useEffect, useState } from "react"
-import { EditDialog } from "../dialog"
 import { Badge } from "../ui/badge"
-import { Button } from "../ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter, CardContent } from "../ui/card"
 
 export function MyAdoptions(){
@@ -28,10 +26,10 @@ export function MyAdoptions(){
       <div>
         <h1>Minhas adoções</h1>
       </div>
-      <div>
+      <div className="grid md:grid-cols-2 grid-cols-1 items-center">
         {pets.length > 0  && ( 
           pets.map((pet)=> (
-             <Card className="m-5 flex items-center" key={pet._id}>
+             <Card className="m-5 flex min-h-64 items-center justify-between max-w-[800px]" key={pet._id}>
              <CardHeader>
                <div className="flex flex-col gap-5">
                  <CardTitle className="text-xl gap-3 ">
