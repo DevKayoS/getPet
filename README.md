@@ -91,7 +91,7 @@ E com isso concluimos todos os passos de adoção!
 Para rodar a aplicação precisa de um requisito minimo ter instalado mongoDB na sua máquina:
 
 ```sh
-git clone [https://github.com/usuario/repositorio.git](https://github.com/DevKayoS/getPet.git)
+git clone https://github.com/DevKayoS/getPet.git
 ```
 Instalando dependencias
 ```sh
