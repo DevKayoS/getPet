@@ -10,19 +10,30 @@ import { ModeToggle } from "./layout/modeToggle"
 
 export const Header = () => {
   const {authenticated, logout} = useAuthContext()
-  const [user, setUser] = useState({})
+  const [user,setUser] = useState({
+    _id: '',
+    name: '',
+    email: '',
+    phone: '',
+    image: null,
+  })
+
   const [token] = useState(localStorage.getItem('token') || '')
-  // const  JSONtoken = JSON.parse(token)
 
   useEffect(()=>{
+
+    const parsedToken = token ? JSON.parse(token) : '';
+
     api.get('/users/checkuser', {
       headers: {
-        Authorization: `Bearer ${JSON.parse(token)}`
+        Authorization: `Bearer ${parsedToken}`
       }
     }).then((response)=> {
       setUser(response.data)
     })
   },[token])
+  
+  
 
   return(
     <div>
